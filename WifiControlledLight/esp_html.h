@@ -65,10 +65,10 @@ const char PAGE_MAIN[] PROGMEM = R"=====(
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            background-color: #FFFFFF; /* Initial color white */
+            background-color: #FFFFFF; 
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); 
             position: relative;
-            transition: background-color 0.5s, box-shadow 0.5s; /* Smooth transition */
+            transition: background-color 0.5s, box-shadow 0.5s; 
         }
         .led:before {
             content: '';
@@ -150,7 +150,7 @@ const char PAGE_MAIN[] PROGMEM = R"=====(
                 </center>
             </div>
             <div class="color-controls">
-                <h3>Set LED Color</h3>
+                <h3>Set RGB</h3>
                 <input type="number" id="red" placeholder="R" min="0" max="255">
                 <input type="number" id="green" placeholder="G" min="0" max="255">
                 <input type="number" id="blue" placeholder="B" min="0" max="255">
@@ -180,13 +180,19 @@ const char PAGE_MAIN[] PROGMEM = R"=====(
         }
 
         function setColor() {
-            var red = document.getElementById('red').value;
-            var green = document.getElementById('green').value;
-            var blue = document.getElementById('blue').value;
+            var red = parseInt(document.getElementById('red').value, 10);
+            var green = parseInt(document.getElementById('green').value, 10);
+            var blue = parseInt(document.getElementById('blue').value, 10);
 
-            if (red < 0 || red > 255 || green < 0 || green > 255 || blue < 0 || blue > 255) {
-                alert('Please enter valid RGB values (0-255).');
-                return;
+          
+            if (isNaN(red) || red < 0 || red > 255) {
+                red = 0;
+            }
+            if (isNaN(green) || green < 0 || green > 255) {
+                green = 0;
+            }
+            if (isNaN(blue) || blue < 0 || blue > 255) {
+                blue = 0;
             }
 
             var color = 'rgb(' + red + ',' + green + ',' + blue + ')';
@@ -195,6 +201,7 @@ const char PAGE_MAIN[] PROGMEM = R"=====(
             ledElement.style.backgroundColor = color;
             ledElement.style.boxShadow = '0 0 20px ' + color;
 
+           
             var xhttp = new XMLHttpRequest();
             xhttp.open("PUT", "/COLOR?R=" + red + "&G=" + green + "&B=" + blue, true);
             xhttp.send();
