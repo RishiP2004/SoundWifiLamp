@@ -27,13 +27,14 @@ const char PAGE_MAIN[] PROGMEM = R"=====(
         }
         .container {
             max-width: 600px;
-            height: 300px;
+            height: auto;
             margin: 20px auto;
             text-align: center;
             background-color: lightgrey;
             border-radius: 10px;
             border: 2px solid #333;
             box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+            padding: 20px;
         }
         .btn {
             background-color: #444444;
@@ -53,7 +54,6 @@ const char PAGE_MAIN[] PROGMEM = R"=====(
             color: #AAAAAA;
             padding: 10px 0;
         }
-    
         .led-container {
             margin: 20px auto;
             display: flex;
@@ -65,10 +65,10 @@ const char PAGE_MAIN[] PROGMEM = R"=====(
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            background-color: #333;
+            background-color: #FFFFFF; /* Initial color white */
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); 
             position: relative;
-            transition: background-color 0.3s, box-shadow 0.3s;
+            transition: background-color 0.5s, box-shadow 0.5s; /* Smooth transition */
         }
         .led:before {
             content: '';
@@ -79,11 +79,7 @@ const char PAGE_MAIN[] PROGMEM = R"=====(
             top: 0;
             left: 0;
             background: radial-gradient(circle at center, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0) 60%);
-            transition: opacity 0.3s;
-        }
-        .led-on {
-            background-color: #4CAF50; 
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
+            transition: opacity 0.5s;
         }
         .led-on:before {
             opacity: 1;
@@ -129,12 +125,19 @@ const char PAGE_MAIN[] PROGMEM = R"=====(
             padding-top: 40px;
             padding-bottom: 40px;
         }
+        .color-controls {
+            margin-top: 20px;
+        }
+        .color-controls input {
+            width: 60px;
+            margin: 5px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div class="navbar">ESP32 Control</div>
     <div class="container">
-        <br>
         <h2>Control LED</h2>
         <div class="led-container">
             <div id="led" class="led led-off"></div>
@@ -145,6 +148,13 @@ const char PAGE_MAIN[] PROGMEM = R"=====(
                         <p>ON &nbsp;&nbsp; OFF</p>
                     </label>
                 </center>
+            </div>
+            <div class="color-controls">
+                <h3>Set LED Color</h3>
+                <input type="number" id="red" placeholder="R" min="0" max="255">
+                <input type="number" id="green" placeholder="G" min="0" max="255">
+                <input type="number" id="blue" placeholder="B" min="0" max="255">
+                <button class="btn" onclick="setColor()">Set Color</button>
             </div>
         </div>
         <footer class="foot">ESP32 Web Page</footer>
@@ -166,6 +176,27 @@ const char PAGE_MAIN[] PROGMEM = R"=====(
 
             var xhttp = new XMLHttpRequest();
             xhttp.open("PUT", "/BUTTON_" + state, true);
+            xhttp.send();
+        }
+
+        function setColor() {
+            var red = document.getElementById('red').value;
+            var green = document.getElementById('green').value;
+            var blue = document.getElementById('blue').value;
+
+            if (red < 0 || red > 255 || green < 0 || green > 255 || blue < 0 || blue > 255) {
+                alert('Please enter valid RGB values (0-255).');
+                return;
+            }
+
+            var color = 'rgb(' + red + ',' + green + ',' + blue + ')';
+            var ledElement = document.getElementById('led');
+
+            ledElement.style.backgroundColor = color;
+            ledElement.style.boxShadow = '0 0 20px ' + color;
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("PUT", "/COLOR?R=" + red + "&G=" + green + "&B=" + blue, true);
             xhttp.send();
         }
     </script>
