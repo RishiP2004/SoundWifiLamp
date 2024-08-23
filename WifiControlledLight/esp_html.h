@@ -27,11 +27,11 @@ const char PAGE_MAIN[] PROGMEM = R"=====(
         }
         .container {
             max-width: 600px;
-            height:300px;
+            height: 300px;
             margin: 20px auto;
             text-align: center;
             background-color: lightgrey;
-            border-radius:10px;
+            border-radius: 10px;
             border: 2px solid #333;
             box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
         }
@@ -53,20 +53,53 @@ const char PAGE_MAIN[] PROGMEM = R"=====(
             color: #AAAAAA;
             padding: 10px 0;
         }
-        /*button*/
-        h1 {
-            color: green;
+    
+        .led-container {
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .led {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #333;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); 
+            position: relative;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        .led:before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0) 60%);
+            transition: opacity 0.3s;
+        }
+        .led-on {
+            background-color: #4CAF50; 
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
+        }
+        .led-on:before {
+            opacity: 1;
+        }
+        .led-off:before {
+            opacity: 0;
         }
         .toggle {
-            position : relative ;
-            display : inline-block;
-            width : 100px;
-            height : 52px;
+            position: relative;
+            display: inline-block;
+            width: 100px;
+            height: 52px;
             background-color: red;
             border-radius: 30px;
             border: 2px solid gray;
         }
-              
         .toggle:after {
             content: '';
             position: absolute;
@@ -74,33 +107,27 @@ const char PAGE_MAIN[] PROGMEM = R"=====(
             height: 50px;
             border-radius: 50%;
             background-color: gray;
-            top: 1px; 
+            top: 1px;
             left: 1px;
-            transition:  all 0.5s;
+            transition: all 0.5s;
         }
-              
         p {
             font-family: Verdana, Arial, sans-serif;
             font-weight: bold;
             color: white;
         }
-              
         .checkbox:checked + .toggle::after {
-            left : 49px; 
+            left: 49px;
         }
-              
-        /* Checkbox checked toggle label bg color */
         .checkbox:checked + .toggle {
             background-color: green;
         }
-              
-        /* Checkbox vanished */
-        .checkbox { 
-            display : none;
+        .checkbox {
+            display: none;
         }
-        .toggleButton{
-            padding-top:40px;
-            padding-bottom:40px;
+        .toggleButton {
+            padding-top: 40px;
+            padding-bottom: 40px;
         }
     </style>
 </head>
@@ -109,25 +136,33 @@ const char PAGE_MAIN[] PROGMEM = R"=====(
     <div class="container">
         <br>
         <h2>Control LED</h2>
-        <div class="toggleButton">
-            <center>
-            <input type="checkbox" id="switch" class="checkbox" onclick="sendToggleState()" />
-            <label for="switch" class="toggle">
-                <p>
-                    ON &nbsp;&nbsp; OFF
-                </p>
-            </label>
-            </center>
+        <div class="led-container">
+            <div id="led" class="led led-off"></div>
+            <div class="toggleButton">
+                <center>
+                    <input type="checkbox" id="switch" class="checkbox" onclick="sendToggleState()" />
+                    <label for="switch" class="toggle">
+                        <p>ON &nbsp;&nbsp; OFF</p>
+                    </label>
+                </center>
+            </div>
         </div>
-
-    
-    <footer class="foot">ESP32 Web Page</footer>
-
+        <footer class="foot">ESP32 Web Page</footer>
+    </div>
     <script type="text/javascript">
         function sendToggleState() {
             var switchElement = document.getElementById('switch');
+            var ledElement = document.getElementById('led');
             var state = switchElement.checked ? 'ON' : 'OFF';
             console.log('Current toggle state:', state);
+
+            if (switchElement.checked) {
+                ledElement.classList.remove('led-off');
+                ledElement.classList.add('led-on');
+            } else {
+                ledElement.classList.remove('led-on');
+                ledElement.classList.add('led-off');
+            }
 
             var xhttp = new XMLHttpRequest();
             xhttp.open("PUT", "/BUTTON_" + state, true);
