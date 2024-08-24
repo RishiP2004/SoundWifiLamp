@@ -2,8 +2,8 @@
 #include <WiFi.h>
 #include <WebServer.h>
 
-#define LOCAL_SSID "Ricky-Guest"
-#define LOCAL_PASS "564us90OP0"
+#define LOCAL_SSID "Put_Your_WiFi_SSID_HERE" //change to your WiFi network
+#define LOCAL_PASS "Put_Your_WiFi_Password_HERE" //change to your WiFi network
 #define PIN_LED 12 //Set GPIO PIN for turning LED ON/OFF
 #define DIGITAL_PIN 34  //set Digital PIN for Sound Sensor
 #define RGB_BLUE 25 //set Digital Blue Pin for RGB
