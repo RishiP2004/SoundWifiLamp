@@ -27,11 +27,12 @@ This project integrates sound detection and wifi technology, using ESP32-WROOM-3
 ------------------------------------------------------------------------------------------
 ![image](https://github.com/user-attachments/assets/e4a2220b-4996-4ee5-856b-37b46768034f)
 ------------------------------------------------------------------------------------------
-#Sound Sensor & Website Test Video:
+#Sound Sensor & Website Test Video (click to view):
 [https://drive.google.com/file/d/1JfRVtRwa3zn45ayK8QFKyisJppNNy0RO/view?usp=sharing](https://drive.google.com/file/d/1JfRVtRwa3zn45ayK8QFKyisJppNNy0RO/view?usp=sharing)
 ------------------------------------------------------------------------------------------
-#Website Test Video:
+#Website Test Video (click to view):
 [https://drive.google.com/file/d/1qGzgjxDRlYJwH9bd3zTByMSXk2JGGZRL/view?usp=sharing](https://drive.google.com/file/d/1qGzgjxDRlYJwH9bd3zTByMSXk2JGGZRL/view?usp=sharing)
+------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------
 
