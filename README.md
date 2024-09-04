@@ -1,7 +1,7 @@
 ------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------
 # SoundWifiLamp
-A project to create a smart lamp controlled by either a sound sensor or app buttons using website via WiFi.
+A project to create a smart lamp controlled by either a sound sensor or by operating the HTML coded buttons on the server website created by the ESP32 Board via WiFi.
 This project integrates sound detection and wifi technology, using ESP32-WROOM-32D.
 
 ##Main Components:
